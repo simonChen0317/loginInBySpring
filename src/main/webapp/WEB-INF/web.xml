@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+    <!--配置spring配置文件。从类路径下加载spring配置文件，classpath关键字特指类路径下加载-->
+    <!--注意spring容器的监听器默认是从WEB-INF下加载spring配置文件的。-->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:smart-context.xml</param-value>
+    </context-param>
+
+    <!--负责启动spring容器的监听器，它将引用上边配置的上下文参数获得spring配置文件的地址。这里使用的是WebApplicationContext-->
+    <listener>
+        <listener-class>
+            org.springframework.web.context.ContextLoaderListener
+        </listener-class>
+    </listener>
+    <!--如果Spring容器中的Bean需要request、session和globalSession作用域的支持，则需要开启下边的监听器-->
+    <!--<listener>
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+    </listener>-->
+
+    <!--spring mvc的主控Servlet-->
+    <servlet>
+        <!--spring mvc也拥有一个spring配置文件，改配置文件的文件名和<servlet-name>配置的Servlet有一个契约。即采用-->
+        <!--<servlet-name名>-servlet.xml的形式，该xml需要放置在/WEB-INF目录下-->
+        <servlet-name>smart</servlet-name>
+        <servlet-class>
+            org.springframework.web.servlet.DispatcherServlet
+        </servlet-class>
+        <load-on-startup>3</load-on-startup>
+    </servlet>
+
+    <!--spring mvc处理的url-->
+    <servlet-mapping>
+        <servlet-name>smart</servlet-name>
+        <url-pattern>*.html</url-pattern>
+    </servlet-mapping>
+</web-app>
